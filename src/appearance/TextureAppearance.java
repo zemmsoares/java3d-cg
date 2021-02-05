@@ -1,6 +1,5 @@
 package appearance;
 
-
 import java.awt.Component;
 import java.net.URL;
 

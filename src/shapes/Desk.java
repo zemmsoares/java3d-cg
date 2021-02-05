@@ -22,8 +22,6 @@ public class Desk extends Group {
 		tg.addChild(top);
 		this.addChild(tg);
 		
-		
-		
 		Primitive leg = new Box(0.025f, 0.25f, 0.5f, Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING, topApp);
 		Transform3D tr1 = new Transform3D();
 		tr1.set(new Vector3f(0.5f, 0.025f + 0.25f, 0f));

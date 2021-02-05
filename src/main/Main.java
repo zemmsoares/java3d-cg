@@ -3,10 +3,12 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -32,6 +34,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
+import javax.swing.JPanel;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
@@ -63,8 +66,24 @@ public class Main extends Frame implements MouseListener {
 		Frame frame = new Main();
 		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.setTitle("Java 3D CG");
-		frame.pack();
+		
 		frame.setVisible(true);
+		
+		 JPanel p = new JPanel();
+	        p.setPreferredSize(new Dimension(130, 200));
+	        p.setLayout(new FlowLayout());
+
+	        p.add(new Label("Instrukcja:"));
+	        p.add(new Label("a, d - Arm sweep"));
+	        p.add(new Label("w, s - Shoulder swivel"));
+	        p.add(new Label("q, e - Elbow"));
+	        p.add(new Label("j, l - Yaw"));
+	        p.add(new Label("i, k - Pitch"));
+	        p.add(new Label("u, o - Roll"));
+	        
+	        
+	      frame.add(p, BorderLayout.CENTER);
+	      frame.pack();
 	}
 
 	// The Frame class doesn't have a
@@ -160,26 +179,11 @@ public class Main extends Frame implements MouseListener {
 		//root.addChild(rotator); ROTATE ANIMATION
 		// spin.addChild(rotator);
 
-		// Table
-		//Appearance app = new Appearance();
-		//app.setMaterial(new Material());
-		//
 		
-		// We create the TextureAppearance class to make it easy to create an appearance of the type texture  
+		// Desk
 		TextureAppearance topApp = new TextureAppearance("images/wood3.jpg", false, this); 
 		Appearance legApp = new Appearance();
-		/*
-		Material brass = new Material();
-		brass.setAmbientColor(0.329412f, 0.223529f, 0.027451f);
-		brass.setDiffuseColor(0.790392f, 0.568627f, 0.113725f);
-		brass.setSpecularColor(0.992157f, 0.941176f, 0.807843f);
-		brass.setShininess(27.8974f);
-		*/
-		
-		// We create the MyMaterial class to make it easy to create and configure a material object
-		MyMaterial brass = new MyMaterial(MyMaterial.BRASS);
-		legApp.setMaterial(brass);
-		
+
 		Desk table = new Desk(topApp, legApp);
 		
 		Transform3D tr = new Transform3D();
@@ -224,17 +228,17 @@ public class Main extends Frame implements MouseListener {
 		spin.addChild(tg1);
 		
 		// PC
+		Appearance whiteApp = new Appearance();
+		MyMaterial white = new MyMaterial(MyMaterial.WHITE);
+		whiteApp.setMaterial(white);
 		
-		Pc computer = new Pc(plasticApp, pc4App);
+		Pc computer = new Pc(plasticApp, whiteApp);
+		
 		
 		Transform3D tr2 = new Transform3D();
 		tr2.setScale(0.5f);
 		tr2.setTranslation(new Vector3f(0.5f, 0f, 0f));
 		TransformGroup tg2 = new TransformGroup(tr2);
-		tg2.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-		tg2.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		tg2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
 		tg2.addChild(computer);
 		spin.addChild(tg2);
 		
@@ -291,7 +295,7 @@ public class Main extends Frame implements MouseListener {
 		sLight.setInfluencingBounds(bounds);
 		root.addChild(sLight);
 		
-		//root.addChild(new Spot(new Vector3f(0.5f, 1f, 0f), 0.05f, new Color3f(Color.RED)));
+	  //root.addChild(new Spot(new Vector3f(0.5f, 1f, 0f), 0.05f, new Color3f(Color.RED)));
 
 		return root;
 	}
