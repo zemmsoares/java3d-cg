@@ -22,30 +22,21 @@ public class Desk extends Group {
 		tg.addChild(top);
 		this.addChild(tg);
 		
-		// Legs
-		Primitive leg = new Cylinder(0.05f, 0.5f, legApp);
-		tr.setTranslation(new Vector3d(0.4, 0.25, 0.4));
-		tg = new TransformGroup(tr);
-		tg.addChild(leg);
-		this.addChild(tg);
 		
-		leg = new Cylinder(0.05f, 0.5f, legApp); 
-		tr.setTranslation(new Vector3d(-2.4, 0.25, 0.4));
-		tg = new TransformGroup(tr);
-		tg.addChild(leg);
-		this.addChild(tg);
 		
-		leg = new Cylinder(0.05f, 0.5f, legApp); 
-		tr.setTranslation(new Vector3d(0.4, 0.25, -0.4));
-		tg = new TransformGroup(tr);
-		tg.addChild(leg);
-		this.addChild(tg);
-
-		leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 
-		tr.setTranslation(new Vector3d(-2.4, 0.25, -0.4));
-		tg = new TransformGroup(tr);
-		tg.addChild(leg);
-		this.addChild(tg);
+		Primitive leg = new Box(0.025f, 0.25f, 0.5f, Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING, topApp);
+		Transform3D tr1 = new Transform3D();
+		tr1.set(new Vector3f(0.5f, 0.025f + 0.25f, 0f));
+		TransformGroup tg1 = new TransformGroup(tr1);
+		tg1.addChild(leg);
+		this.addChild(tg1);
+		
+		leg = new Box(0.025f, 0.25f, 0.5f, Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING, topApp);
+		Transform3D tr11 = new Transform3D();
+		tr11.set(new Vector3f(-2.47f, 0.025f + 0.25f, 0f));
+		TransformGroup tg11 = new TransformGroup(tr11);
+		tg11.addChild(leg);
+		this.addChild(tg11);
 		
 	}
 }

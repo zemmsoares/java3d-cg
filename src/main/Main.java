@@ -3,6 +3,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GridLayout;
@@ -17,6 +18,8 @@ import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Font3D;
+import javax.media.j3d.FontExtrusion;
 import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
@@ -24,6 +27,7 @@ import javax.media.j3d.PointLight;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.SpotLight;
+import javax.media.j3d.Text3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
@@ -57,7 +61,7 @@ public class Main extends Frame implements MouseListener {
 
 	public static void main(String[] args) {
 		Frame frame = new Main();
-		frame.setPreferredSize(new Dimension(800, 800));
+		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.setTitle("Java 3D CG");
 		frame.pack();
 		frame.setVisible(true);
@@ -143,7 +147,7 @@ public class Main extends Frame implements MouseListener {
 		root.addChild(new Axes(new Color3f(Color.RED), 3, 0.5f));
 
 		// Floor
-		root.addChild(new Floor(10, -1, 1, new Color3f(Color.WHITE), new Color3f(Color.RED), true));
+		root.addChild(new Floor(10, -1, 1, new Color3f(Color.GRAY), new Color3f(Color.GRAY), true));
 
 		TransformGroup spin = new TransformGroup();
 		spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -197,6 +201,7 @@ public class Main extends Frame implements MouseListener {
 		
 		TextureAppearance pc2App = new TextureAppearance("images/screen.jpg", false, this); 
 		TextureAppearance pc3App = new TextureAppearance("images/screen2.jpg", false, this); 
+		TextureAppearance pc4App = new TextureAppearance("images/components.jpg", false, this); 
 		Appearance plasticApp = new Appearance();
 		
 		
@@ -220,7 +225,7 @@ public class Main extends Frame implements MouseListener {
 		
 		// PC
 		
-		Pc computer = new Pc(plasticApp);
+		Pc computer = new Pc(plasticApp, pc4App);
 		
 		Transform3D tr2 = new Transform3D();
 		tr2.setScale(0.5f);
@@ -232,6 +237,20 @@ public class Main extends Frame implements MouseListener {
 
 		tg2.addChild(computer);
 		spin.addChild(tg2);
+		
+		//Font 3d Text
+		Appearance text3dap = new Appearance();
+		text3dap.setMaterial(new Material());
+		Font3D font = new Font3D(new Font("SansSerif", Font.PLAIN, 1), new FontExtrusion());
+		Text3D text = new Text3D(font, "IPG");
+		Shape3D shape3dtext = new Shape3D(text, text3dap);
+
+		Transform3D tr5 = new Transform3D();
+		tr5.setScale(0.1);
+		tr5.setTranslation(new Vector3f(0.1f, 0.28f, 0f));
+		TransformGroup tg5 = new TransformGroup(tr5);
+		root.addChild(tg5);
+		tg5.addChild(shape3dtext);
 		
 		// Geometry
 		Appearance orangeApp = new Appearance();
