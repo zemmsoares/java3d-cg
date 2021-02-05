@@ -1,4 +1,4 @@
-package ex9_1;
+package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,19 +46,18 @@ import shapes.Axes;
 import shapes.Floor;
 import shapes.FloorLamp;
 import shapes.FloorLamp2;
-import shapes.Table;
-import shapes.Table2;
+import shapes.Desk;
 
-public class Ex9_1 extends Frame implements MouseListener {
+public class Main extends Frame implements MouseListener {
 
 	BoundingSphere bounds = new BoundingSphere(); // Bounds of the scene
 	PointLight pLight = null; // Point light of the scene
 	PickCanvas pc = null; // PickCanvas to perform picking
 
 	public static void main(String[] args) {
-		Frame frame = new Ex9_1();
+		Frame frame = new Main();
 		frame.setPreferredSize(new Dimension(800, 800));
-		frame.setTitle("Simple 3D Scene");
+		frame.setTitle("Java 3D CG");
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -73,7 +72,7 @@ public class Ex9_1 extends Frame implements MouseListener {
 		}
 	}
 
-	public Ex9_1() {
+	public Main() {
 		// Create first canvas for the first view
 		GraphicsConfiguration gc = SimpleUniverse.getPreferredConfiguration();
 		Canvas3D cv1 = new Canvas3D(gc);
@@ -176,7 +175,7 @@ public class Ex9_1 extends Frame implements MouseListener {
 		MyMaterial brass = new MyMaterial(MyMaterial.BRASS);
 		legApp.setMaterial(brass);
 		
-		Table2 table = new Table2(topApp, legApp);
+		Desk table = new Desk(topApp, legApp);
 		
 		Transform3D tr = new Transform3D();
 		tr.setScale(0.5f);
