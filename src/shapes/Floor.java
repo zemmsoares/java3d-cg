@@ -8,6 +8,7 @@ import javax.media.j3d.Shape3D;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3f;
 
+
 public class Floor extends Shape3D {
 	
 	public Floor(int divisions, float min, float max, Color3f color1, Color3f color2, boolean solid) {
@@ -28,6 +29,7 @@ public class Floor extends Shape3D {
 
 		Point3f[] pts = new Point3f[totalPts];  // Array of vertices
 		Color3f[] col = new Color3f[totalPts];  // Array of colors of vertices
+		
 		
 		int idx = 0; // Auxiliary index
 		boolean invert = true;  // Flag to invert the color 

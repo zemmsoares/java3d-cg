@@ -23,25 +23,25 @@ public class Desk extends Group {
 		this.addChild(tg);
 		
 		// Legs
-		Primitive leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 significa 0.5 de altura
+		Primitive leg = new Cylinder(0.05f, 0.5f, legApp);
 		tr.setTranslation(new Vector3d(0.4, 0.25, 0.4));
 		tg = new TransformGroup(tr);
 		tg.addChild(leg);
 		this.addChild(tg);
 		
-		leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 significa 0.5 de altura
+		leg = new Cylinder(0.05f, 0.5f, legApp); 
 		tr.setTranslation(new Vector3d(-2.4, 0.25, 0.4));
 		tg = new TransformGroup(tr);
 		tg.addChild(leg);
 		this.addChild(tg);
 		
-		leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 significa 0.5 de altura
+		leg = new Cylinder(0.05f, 0.5f, legApp); 
 		tr.setTranslation(new Vector3d(0.4, 0.25, -0.4));
 		tg = new TransformGroup(tr);
 		tg.addChild(leg);
 		this.addChild(tg);
 
-		leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 significa 0.5 de altura
+		leg = new Cylinder(0.05f, 0.5f, legApp);  // 0.5 
 		tr.setTranslation(new Vector3d(-2.4, 0.25, -0.4));
 		tg = new TransformGroup(tr);
 		tg.addChild(leg);

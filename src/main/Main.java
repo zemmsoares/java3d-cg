@@ -44,8 +44,7 @@ import appearance.MyMaterial;
 import appearance.TextureAppearance;
 import shapes.Axes;
 import shapes.Floor;
-import shapes.FloorLamp;
-import shapes.FloorLamp2;
+import shapes.Pc;
 import shapes.Desk;
 
 public class Main extends Frame implements MouseListener {
@@ -142,7 +141,7 @@ public class Main extends Frame implements MouseListener {
 		root.addChild(new Axes(new Color3f(Color.RED), 3, 0.5f));
 
 		// Floor
-		root.addChild(new Floor(10, -1, 1, new Color3f(Color.DARK_GRAY), new Color3f(Color.WHITE), true));
+		root.addChild(new Floor(10, -1, 1, new Color3f(Color.WHITE), new Color3f(Color.RED), true));
 
 		TransformGroup spin = new TransformGroup();
 		spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
@@ -161,7 +160,7 @@ public class Main extends Frame implements MouseListener {
 		//
 		
 		// We create the TextureAppearance class to make it easy to create an appearance of the type texture  
-		TextureAppearance topApp = new TextureAppearance("images/wood2.jpg", false, this); 
+		TextureAppearance topApp = new TextureAppearance("images/wood3.jpg", false, this); 
 		Appearance legApp = new Appearance();
 		/*
 		Material brass = new Material();
@@ -191,35 +190,32 @@ public class Main extends Frame implements MouseListener {
 		// root.addChild(tg);
 		spin.addChild(tg);
 
-		// Lamp
-		// FloorLamp floorLamp = new FloorLamp(app);
 
-		//Appearance lampshadeApp = createTextureAppearance("images/lampshade-texture.jpg", true);
+		// PC
 		
-		TextureAppearance lampshadeApp  = new TextureAppearance("images/lampshade-texture.jpg", true, this); 
-		Appearance lampApp = new Appearance();
-		/*
-		 Material bronze = new Material(); 
-		 bronze.setAmbientColor(0.2125f, 0.1275f, 0.054f); 
-		 bronze.setDiffuseColor(0.714f, 0.4284f, 0.18144f);
-		 bronze.setSpecularColor(0.393548f, 0.271906f, 0.166721f);
-		 bronze.setShininess(25.6f);
-		 */
-		MyMaterial bronze = new MyMaterial(MyMaterial.BRONZE);
-		lampApp.setMaterial(bronze);
+		TextureAppearance pc2App = new TextureAppearance("images/screen.jpg", false, this); 
+		Appearance plasticApp = new Appearance();
+		
+		MyMaterial plastic = new MyMaterial(MyMaterial.PLASTIC);
+		plasticApp.setMaterial(plastic);
+		
+		Pc computer = new Pc(pc2App, plasticApp);
+		
+		Transform3D tr1 = new Transform3D();
+		tr1.setScale(0.5f);
+		tr1.setTranslation(new Vector3f(0.5f, 0f, 0f));
+		TransformGroup tg1 = new TransformGroup(tr1);
+		// The tg that is parent of the table, must have permissions to be part of the
+		// picking result and to read and write its geometric transformation
+		tg1.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
-		FloorLamp2 floorLamp = new FloorLamp2(lampshadeApp, lampApp);
-
-		tr = new Transform3D();
-		tr.setScale(0.5f);
-		tr.setTranslation(new Vector3f(-0.3f, 0f, 0f));
-		tg = new TransformGroup(tr);
-		tg.addChild(floorLamp);
-		// root.addChild(tg);
-		spin.addChild(tg);
+		tg1.addChild(computer);
+		spin.addChild(tg1);
 
 		// Background
-		Background background = new Background(new Color3f(Color.LIGHT_GRAY));
+		Background background = new Background(new Color3f(Color.BLACK));
 		background.setApplicationBounds(bounds);
 		root.addChild(background);
 
