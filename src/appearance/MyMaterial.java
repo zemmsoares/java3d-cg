@@ -6,6 +6,7 @@ public class MyMaterial extends Material {
 	public final static int BRASS = 0;
 	public final static int BRONZE = 1;
 	public final static int PLASTIC = 2;
+	public final static int ORANGE = 3;
 
 	public MyMaterial(int type) {
 		switch (type) {
@@ -27,6 +28,13 @@ public class MyMaterial extends Material {
 			this.setSpecularColor(0.0f, 0.0f, 0.0f);
 			this.setShininess(25.6f);
 			break;
+		case ORANGE:
+			this.setAmbientColor(0.255f, 0.127f, 0.8f);
+			this.setDiffuseColor(0.255f, 0.127f, 0.8f);
+			this.setSpecularColor(0.255f, 0.127f, 0.8f);
+			this.setShininess(25.6f);
+			break;
+			
 		}
 	}
 

@@ -44,7 +44,9 @@ import appearance.MyMaterial;
 import appearance.TextureAppearance;
 import shapes.Axes;
 import shapes.Floor;
+import shapes.Monitors;
 import shapes.Pc;
+import shapes.Dodecahedron;
 import shapes.Desk;
 
 public class Main extends Frame implements MouseListener {
@@ -151,7 +153,7 @@ public class Main extends Frame implements MouseListener {
 		Alpha alpha = new Alpha(-1, 30000);
 		RotationInterpolator rotator = new RotationInterpolator(alpha, tgView);
 		rotator.setSchedulingBounds(bounds);
-		root.addChild(rotator);
+		//root.addChild(rotator); ROTATE ANIMATION
 		// spin.addChild(rotator);
 
 		// Table
@@ -191,15 +193,17 @@ public class Main extends Frame implements MouseListener {
 		spin.addChild(tg);
 
 
-		// PC
+		// Monitors
 		
 		TextureAppearance pc2App = new TextureAppearance("images/screen.jpg", false, this); 
+		TextureAppearance pc3App = new TextureAppearance("images/screen2.jpg", false, this); 
 		Appearance plasticApp = new Appearance();
+		
 		
 		MyMaterial plastic = new MyMaterial(MyMaterial.PLASTIC);
 		plasticApp.setMaterial(plastic);
 		
-		Pc computer = new Pc(pc2App, plasticApp);
+		Monitors monitor = new Monitors(pc2App,pc3App, plasticApp);
 		
 		Transform3D tr1 = new Transform3D();
 		tr1.setScale(0.5f);
@@ -211,8 +215,40 @@ public class Main extends Frame implements MouseListener {
 		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
-		tg1.addChild(computer);
+		tg1.addChild(monitor);
 		spin.addChild(tg1);
+		
+		// PC
+		
+		Pc computer = new Pc(plasticApp);
+		
+		Transform3D tr2 = new Transform3D();
+		tr2.setScale(0.5f);
+		tr2.setTranslation(new Vector3f(0.5f, 0f, 0f));
+		TransformGroup tg2 = new TransformGroup(tr2);
+		tg2.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+		tg2.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg2.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+		tg2.addChild(computer);
+		spin.addChild(tg2);
+		
+		// Geometry
+		Appearance orangeApp = new Appearance();
+		MyMaterial orange = new MyMaterial(MyMaterial.ORANGE);
+		orangeApp.setMaterial(orange);
+		
+		Appearance ap = new Appearance();
+		ap.setMaterial(new Material());
+		Shape3D shape = new Dodecahedron();
+		shape.setAppearance(orangeApp);
+		
+		Transform3D tr4 = new Transform3D();
+		tr4.setScale(0.05);
+		tr4.setTranslation(new Vector3f(0f, 1f, 0f));
+		TransformGroup tg4 = new TransformGroup(tr4);
+		spin.addChild(tg4);
+		tg4.addChild(shape);
 
 		// Background
 		Background background = new Background(new Color3f(Color.BLACK));
@@ -224,15 +260,15 @@ public class Main extends Frame implements MouseListener {
 		aLight.setInfluencingBounds(bounds);
 		root.addChild(aLight);
 
-		pLight = new PointLight(new Color3f(Color.YELLOW), new Point3f(3f, 3f, 3f), new Point3f(1f, 0f, 0f));
+		pLight = new PointLight(new Color3f(Color.white), new Point3f(3f, 3f, 3f), new Point3f(1f, 0f, 0f));
 		// The pLight must have permissions to change its state
 		pLight.setCapability(PointLight.ALLOW_STATE_READ);
 		pLight.setCapability(PointLight.ALLOW_STATE_WRITE);
 		pLight.setInfluencingBounds(bounds);
 		root.addChild(pLight);
 
-		SpotLight sLight = new SpotLight(new Color3f(Color.blue), new Point3f(0.5f, 1f, 0f), new Point3f(1f, 0f, 0f),
-				new Vector3f(0f, -1f, 0f), (float) (Math.PI / 6.0), 0f);
+		SpotLight sLight = new SpotLight(new Color3f(Color.red), new Point3f(0.5f, 1f, 0f), new Point3f(1f, 0f, 0f),
+		new Vector3f(0f, -1f, 0f), (float) (Math.PI / 6.0), 0f);
 		sLight.setInfluencingBounds(bounds);
 		root.addChild(sLight);
 		
@@ -268,7 +304,7 @@ public class Main extends Frame implements MouseListener {
 			Shape3D nodeS = (Shape3D) result.getNode(PickResult.SHAPE3D);
 			if (nodeS != null) {
 				// System.out.println(nodeS.toString());
-				if (nodeS.toString().contains("Lampshade")) {
+				if (nodeS.toString().contains("Dodecahedron")) {
 					// System.out.println("X");
 					if (pLight.getEnable())
 						pLight.setEnable(false);
