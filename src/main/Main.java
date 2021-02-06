@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.MouseEvent;
@@ -34,12 +36,15 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
-import javax.swing.JPanel;
+
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
+
+import java.awt.*;
+import javax.swing.*;
 
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.picking.PickCanvas;
@@ -66,29 +71,11 @@ public class Main extends Frame implements MouseListener {
 		Frame frame = new Main();
 		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.setTitle("Java 3D CG");
+		frame.pack();
+		frame.setVisible(true);    
 		
-		frame.setVisible(true);
-		
-		 JPanel p = new JPanel();
-	        p.setPreferredSize(new Dimension(130, 200));
-	        p.setLayout(new FlowLayout());
-
-	        p.add(new Label("Instrukcja:"));
-	        p.add(new Label("a, d - Arm sweep"));
-	        p.add(new Label("w, s - Shoulder swivel"));
-	        p.add(new Label("q, e - Elbow"));
-	        p.add(new Label("j, l - Yaw"));
-	        p.add(new Label("i, k - Pitch"));
-	        p.add(new Label("u, o - Roll"));
-	        
-	        
-	      frame.add(p, BorderLayout.CENTER);
-	      frame.pack();
 	}
 
-	// The Frame class doesn't have a
-	// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// A possible solution is to override the processWindowEvent method.
 	protected void processWindowEvent(WindowEvent e) {
 		super.processWindowEvent(e);
 		if (e.getID() == WindowEvent.WINDOW_CLOSING) {
@@ -127,7 +114,7 @@ public class Main extends Frame implements MouseListener {
 		// The first TransformGroup of the view is passed and it will be controlled by the rotator
 		// to rotate the view around the Y axis
 		BranchGroup bg = createSceneGraph(su.getViewingPlatform().
-			      getMultiTransformGroup().getTransformGroup(0));   
+		getMultiTransformGroup().getTransformGroup(0));   
 		bg.compile();
 		su.addBranchGraph(bg); // Add the content branch to the simple universe
 
@@ -166,8 +153,9 @@ public class Main extends Frame implements MouseListener {
 		root.addChild(new Axes(new Color3f(Color.RED), 3, 0.5f));
 
 		// Floor
-		root.addChild(new Floor(10, -1, 1, new Color3f(Color.GRAY), new Color3f(Color.GRAY), true));
-
+		root.addChild(new Floor(10, -1, 1, new Color3f(Color.BLACK), new Color3f(Color.WHITE), true));
+		
+		
 		TransformGroup spin = new TransformGroup();
 		spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		root.addChild(spin);
@@ -190,12 +178,6 @@ public class Main extends Frame implements MouseListener {
 		tr.setScale(0.5f);
 		tr.setTranslation(new Vector3f(0.5f, 0f, 0f));
 		TransformGroup tg = new TransformGroup(tr);
-		// The tg that is parent of the table, must have permissions to be part of the
-		// picking result and to read and write its geometric transformation
-		tg.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		tg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
 		tg.addChild(table);
 		// root.addChild(tg);
 		spin.addChild(tg);
@@ -218,12 +200,6 @@ public class Main extends Frame implements MouseListener {
 		tr1.setScale(0.5f);
 		tr1.setTranslation(new Vector3f(0.5f, 0f, 0f));
 		TransformGroup tg1 = new TransformGroup(tr1);
-		// The tg that is parent of the table, must have permissions to be part of the
-		// picking result and to read and write its geometric transformation
-		tg1.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
-		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-		tg1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
 		tg1.addChild(monitor);
 		spin.addChild(tg1);
 		
@@ -256,6 +232,12 @@ public class Main extends Frame implements MouseListener {
 		root.addChild(tg5);
 		tg5.addChild(shape3dtext);
 		
+		// The tg that is parent of the table, must have permissions to be part of the
+		// picking result and to read and write its geometric transformation
+		tg5.setCapability(TransformGroup.ENABLE_PICK_REPORTING);
+		tg5.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		tg5.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		
 		// Geometry
 		Appearance orangeApp = new Appearance();
 		MyMaterial orange = new MyMaterial(MyMaterial.ORANGE);
@@ -272,6 +254,34 @@ public class Main extends Frame implements MouseListener {
 		TransformGroup tg4 = new TransformGroup(tr4);
 		spin.addChild(tg4);
 		tg4.addChild(shape);
+		
+		// Wall
+        // RighWALL
+		
+		Appearance wallApp = new Appearance();
+		MyMaterial wallback = new MyMaterial(MyMaterial.WALL);
+		wallApp.setMaterial(wallback);
+		
+        TransformGroup wall1Tg = new TransformGroup();
+        Shape3D wall1 = new MyShapes().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
+                new Point3f(1.0f, 0f, 1.0f), new Point3f(1.0f, 0f, -1.0f),
+                new Point3f(1.0f, 1.0f, -1.0f));
+        wall1.setAppearance(wallApp);
+        
+        // BackWall
+        Transform3D transformWall3 = new Transform3D();
+        transformWall3.rotY(Math.PI/2);
+        TransformGroup wall3Tg = new TransformGroup(transformWall3);
+        Shape3D wall3 = new MyShapes().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
+                new Point3f(1.0f, 0f, 1.0f), new Point3f(1.0f, 0f, -1.0f),
+                new Point3f(1.0f, 1.0f, -1.0f));
+        wall3.setAppearance(wallApp);
+        
+        wall1Tg.addChild(wall1);
+        root.addChild(wall1Tg);
+        
+        wall3Tg.addChild(wall3);
+        root.addChild(wall3Tg);
 
 		// Background
 		Background background = new Background(new Color3f(Color.BLACK));
