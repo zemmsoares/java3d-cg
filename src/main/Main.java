@@ -22,6 +22,7 @@ import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
 import javax.media.j3d.Material;
@@ -46,7 +47,9 @@ import javax.vecmath.Vector3f;
 import java.awt.*;
 import javax.swing.*;
 
+import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
+import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.picking.PickCanvas;
 import com.sun.j3d.utils.picking.PickResult;
 import com.sun.j3d.utils.picking.PickTool;
@@ -57,6 +60,7 @@ import appearance.TextureAppearance;
 import shapes.Axes;
 import shapes.Floor;
 import shapes.Monitors;
+import shapes.MyObj;
 import shapes.Pc;
 import shapes.Dodecahedron;
 import shapes.Desk;
@@ -126,6 +130,7 @@ public class Main extends Frame implements MouseListener {
 		OrbitBehavior orbit = new OrbitBehavior(cv1);
 		orbit.setSchedulingBounds(bounds);
 		su.getViewingPlatform().setViewPlatformBehavior(orbit);
+	
 	}
 
 	private BranchGroup createView(Canvas3D cv, Point3d eye, Point3d center, Vector3d vup) {
@@ -143,11 +148,28 @@ public class Main extends Frame implements MouseListener {
 		tg.addChild(vp);
 		BranchGroup bgView = new BranchGroup();
 		bgView.addChild(tg);
+		
 		return bgView;
+		
+		
 	}
 
 	private BranchGroup createSceneGraph(TransformGroup tgView) {
 		BranchGroup root = new BranchGroup();
+		
+		
+		TransformGroup listenerGroup = new TransformGroup();
+        listenerGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        listenerGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+        root.addChild(listenerGroup);
+
+        KeyNavigatorBehavior behaviour = new KeyNavigatorBehavior(listenerGroup);
+        //MouseRotate behaviour = new MouseRotate(listenerGroup);
+        behaviour.setSchedulingBounds(new BoundingSphere(new Point3d(), 100));
+
+        listenerGroup.addChild(behaviour);
+        listenerGroup.addChild(new ColorCube(0.4));
+		
 
 		// Axes
 		root.addChild(new Axes(new Color3f(Color.RED), 3, 0.5f));
@@ -166,7 +188,33 @@ public class Main extends Frame implements MouseListener {
 		rotator.setSchedulingBounds(bounds);
 		//root.addChild(rotator); ROTATE ANIMATION
 		// spin.addChild(rotator);
+		
+		
+		// OBJECT TO MOVE
+		Appearance objApp = new Appearance();
+		objApp.setMaterial(new MyMaterial(MyMaterial.RED));
+		// Box obj = new Box(0.2f, 0.2f, 0.2f, Primitive.GENERATE_NORMALS, objApp);
+		MyObj obj = new MyObj(0.025f, objApp);
 
+		// TransformGroup to position the object
+		Transform3D tr = new Transform3D();
+		tr.setTranslation(new Vector3f(0f, 0f, 0f));
+		TransformGroup tg = new TransformGroup(tr);
+		tg.addChild(obj);
+		// tg.addChild(new Axes(new Color3f(Color.BLUE), 3, 0.5f));
+
+		// TransformGroup to move the object
+		TransformGroup moveTg = new TransformGroup();
+		moveTg.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		moveTg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		moveTg.addChild(tg);
+		root.addChild(moveTg);
+		
+		// Behavior to move the object.
+		KeyControl kc = new KeyControl(moveTg, obj);
+		kc.setSchedulingBounds(bounds);
+		root.addChild(kc);
+		
 		
 		// Desk
 		TextureAppearance topApp = new TextureAppearance("images/wood3.jpg", false, this); 
@@ -174,20 +222,19 @@ public class Main extends Frame implements MouseListener {
 
 		Desk table = new Desk(topApp, legApp);
 		
-		Transform3D tr = new Transform3D();
-		tr.setScale(0.5f);
-		tr.setTranslation(new Vector3f(0.5f, 0f, 0f));
-		TransformGroup tg = new TransformGroup(tr);
-		tg.addChild(table);
+		Transform3D tr1 = new Transform3D();
+		tr1.setScale(0.5f);
+		tr1.setTranslation(new Vector3f(0.5f, 0f, 0f));
+		TransformGroup tg1 = new TransformGroup(tr1);
+		tg1.addChild(table);
 		// root.addChild(tg);
-		spin.addChild(tg);
+		spin.addChild(tg1);
 
 
 		// Monitors
 		
 		TextureAppearance pc2App = new TextureAppearance("images/screen.jpg", false, this); 
 		TextureAppearance pc3App = new TextureAppearance("images/screen2.jpg", false, this); 
-		TextureAppearance pc4App = new TextureAppearance("images/components.jpg", false, this); 
 		Appearance plasticApp = new Appearance();
 		
 		
@@ -196,20 +243,19 @@ public class Main extends Frame implements MouseListener {
 		
 		Monitors monitor = new Monitors(pc2App,pc3App, plasticApp);
 		
-		Transform3D tr1 = new Transform3D();
-		tr1.setScale(0.5f);
-		tr1.setTranslation(new Vector3f(0.5f, 0f, 0f));
-		TransformGroup tg1 = new TransformGroup(tr1);
-		tg1.addChild(monitor);
-		spin.addChild(tg1);
+		Transform3D tr11 = new Transform3D();
+		tr11.setScale(0.5f);
+		tr11.setTranslation(new Vector3f(0.5f, 0f, 0f));
+		TransformGroup tg11 = new TransformGroup(tr11);
+		tg11.addChild(monitor);
+		spin.addChild(tg11);
 		
 		// PC
-		Appearance whiteApp = new Appearance();
-		MyMaterial white = new MyMaterial(MyMaterial.WHITE);
-		whiteApp.setMaterial(white);
+		Appearance redApp = new Appearance();
+		MyMaterial red = new MyMaterial(MyMaterial.RED);
+		redApp.setMaterial(red);
 		
-		Pc computer = new Pc(plasticApp, whiteApp);
-		
+		Pc computer = new Pc(plasticApp, redApp);
 		
 		Transform3D tr2 = new Transform3D();
 		tr2.setScale(0.5f);
@@ -217,6 +263,8 @@ public class Main extends Frame implements MouseListener {
 		TransformGroup tg2 = new TransformGroup(tr2);
 		tg2.addChild(computer);
 		spin.addChild(tg2);
+		
+
 		
 		//Font 3d Text
 		Appearance text3dap = new Appearance();
@@ -258,24 +306,24 @@ public class Main extends Frame implements MouseListener {
 		// Wall
         // RighWALL
 		
-		Appearance wallApp = new Appearance();
+		Appearance testeApp = new Appearance();
 		MyMaterial wallback = new MyMaterial(MyMaterial.WALL);
-		wallApp.setMaterial(wallback);
+		testeApp.setMaterial(wallback);
 		
         TransformGroup wall1Tg = new TransformGroup();
-        Shape3D wall1 = new MyShapes().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
+        Shape3D wall1 = new shapes.Wall().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
                 new Point3f(1.0f, 0f, 1.0f), new Point3f(1.0f, 0f, -1.0f),
                 new Point3f(1.0f, 1.0f, -1.0f));
-        wall1.setAppearance(wallApp);
+        wall1.setAppearance(redApp);
         
         // BackWall
         Transform3D transformWall3 = new Transform3D();
         transformWall3.rotY(Math.PI/2);
         TransformGroup wall3Tg = new TransformGroup(transformWall3);
-        Shape3D wall3 = new MyShapes().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
+        Shape3D wall3 = new shapes.Wall().makeGround(new Point3f(1.0f, 1.0f, 1.0f),
                 new Point3f(1.0f, 0f, 1.0f), new Point3f(1.0f, 0f, -1.0f),
                 new Point3f(1.0f, 1.0f, -1.0f));
-        wall3.setAppearance(wallApp);
+        wall3.setAppearance(redApp);
         
         wall1Tg.addChild(wall1);
         root.addChild(wall1Tg);
@@ -289,6 +337,7 @@ public class Main extends Frame implements MouseListener {
 		root.addChild(background);
 
 		// Lights
+		
 		AmbientLight aLight = new AmbientLight(true, new Color3f(Color.WHITE));
 		aLight.setInfluencingBounds(bounds);
 		root.addChild(aLight);

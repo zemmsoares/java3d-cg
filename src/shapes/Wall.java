@@ -1,4 +1,4 @@
-package main;
+package shapes;
 
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.QuadArray;
@@ -6,7 +6,7 @@ import javax.media.j3d.Shape3D;
 import javax.vecmath.Point2f;
 import javax.vecmath.Point3f;
 
-public class MyShapes {
+public class Wall {
 	public Shape3D makeGround(Point3f rightUp, Point3f rightDown, Point3f leftDown, Point3f leftUp){
         Point3f[]  coords = new Point3f[8];
         for(int i = 0; i< 8; i++)
