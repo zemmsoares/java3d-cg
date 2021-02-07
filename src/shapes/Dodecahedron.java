@@ -31,6 +31,6 @@ public class Dodecahedron extends Shape3D{
     NormalGenerator ng = new NormalGenerator();
     ng.generateNormals(gi);
     
-    this.setGeometry(gi.getGeometryArray());
+    this.setGeometry(gi.getGeometryArray());    
   }
 }

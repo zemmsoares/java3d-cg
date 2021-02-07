@@ -63,6 +63,7 @@ import shapes.Floor;
 import shapes.Monitors;
 import shapes.MyObj;
 import shapes.Pc;
+import shapes.PyramidExample;
 import shapes.myCube;
 import shapes.Dodecahedron;
 import shapes.Desk;
@@ -128,7 +129,10 @@ public class Main extends Frame implements MouseListener {
 		pc = new PickCanvas(cv1, bg);
 		pc.setMode(PickTool.GEOMETRY);
 
-		// Add a OrbitBehavior to control the fisrt view with the mouse
+        ////////////////////////////////////////////////////////////////////////////
+        // 							OrbitBehavior
+        ////////////////////////////////////////////////////////////////////////////
+		
 		OrbitBehavior orbit = new OrbitBehavior(cv1);
 		orbit.setSchedulingBounds(bounds);
 		su.getViewingPlatform().setViewPlatformBehavior(orbit);
@@ -164,12 +168,13 @@ public class Main extends Frame implements MouseListener {
 		myCube cube = new myCube();
 		
 		Transform3D tr20 = new Transform3D();
-		tr20.setScale(0.5f);
-		tr20.setTranslation(new Vector3f(1f, 0f, 0f));
+		tr20.setScale(0.2f);
+		tr20.setTranslation(new Vector3f(0f, 0.5f, 0f));
 		TransformGroup tg20 = new TransformGroup(tr20);
 		tg20.addChild(cube);
 		root.addChild(tg20);
-
+		
+		
         ////////////////////////////////////////////////////////////////////////////
         // 							Billboard
         ////////////////////////////////////////////////////////////////////////////
@@ -353,6 +358,7 @@ public class Main extends Frame implements MouseListener {
 		TransformGroup tg4 = new TransformGroup(tr4);
 		spin.addChild(tg4);
 		tg4.addChild(shape);
+	
 		
         ////////////////////////////////////////////////////////////////////////////
         // 							Walls

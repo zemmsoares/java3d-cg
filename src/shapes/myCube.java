@@ -30,7 +30,7 @@ public class myCube extends Shape3D {
 		axisLines.setCoordinateIndex(9, 3);
 		axisLines.setCoordinateIndex(10, 2);
 		axisLines.setCoordinateIndex(11, 3);
-		
+
 		return axisLines;
 	}
 }
