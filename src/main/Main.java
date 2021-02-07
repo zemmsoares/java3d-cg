@@ -179,27 +179,22 @@ public class Main extends Frame implements MouseListener {
         // 							Billboard
         ////////////////////////////////////////////////////////////////////////////
         
-        Vector3f translate = new Vector3f();
-        Transform3D T3D = new Transform3D();
-        TransformGroup TGT = new TransformGroup();
-        TransformGroup TGR = new TransformGroup(); 
-        Billboard billboard = null;
-        BoundingSphere bSphere = new BoundingSphere();
-        
-        translate.set(new Vector3f(1.0f, 1.0f, 0.0f));
-        T3D.setTranslation(translate);
-        
-        // set up for billboard behavior
-        TGR.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        billboard = new Billboard(TGR);
-        billboard.setSchedulingBounds(bSphere);
-        
-        // assemble scene graph
-        root.addChild(TGT);
-        root.addChild(billboard);
-        TGT.addChild(TGR);
-        TGR.addChild(new ColorCube(0.1f));
-        
+		TransformGroup bbTg = new TransformGroup();
+		bbTg.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		root.addChild(bbTg);
+
+		Billboard bb = new Billboard(bbTg, Billboard.ROTATE_ABOUT_POINT, new Point3f(0f, 0f, 2.0f));
+		bb.setSchedulingBounds(bounds);
+		bbTg.addChild(bb);
+
+		Transform3D tr12 = new Transform3D();
+		tr12.setTranslation(new Vector3f(0.0f, 0.0f, 0f));
+		TransformGroup tg12 = new TransformGroup(tr12);
+		ColorCube imagePanel = new ColorCube(0.1f);
+
+		tg12.addChild(imagePanel);
+		bbTg.addChild(tg12);
+
         ////////////////////////////////////////////////////////////////////////////
         
 		// Axes
@@ -233,7 +228,7 @@ public class Main extends Frame implements MouseListener {
 
 		// TransformGroup to position the object
 		Transform3D tr = new Transform3D();
-		tr.setTranslation(new Vector3f(0f, 0f, 0f));
+		tr.setTranslation(new Vector3f(-0.32f, 0.28f, 0f));
 		TransformGroup tg = new TransformGroup(tr);
 		tg.addChild(obj);
 		// tg.addChild(new Axes(new Color3f(Color.BLUE), 3, 0.5f));
