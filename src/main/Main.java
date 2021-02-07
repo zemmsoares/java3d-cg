@@ -157,7 +157,6 @@ public class Main extends Frame implements MouseListener {
 	private BranchGroup createSceneGraph(TransformGroup tgView) {
 		BranchGroup root = new BranchGroup();
 		
-		
 		TransformGroup listenerGroup = new TransformGroup();
         listenerGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
         listenerGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
@@ -168,7 +167,7 @@ public class Main extends Frame implements MouseListener {
         behaviour.setSchedulingBounds(new BoundingSphere(new Point3d(), 100));
 
         listenerGroup.addChild(behaviour);
-        listenerGroup.addChild(new ColorCube(0.4));
+        //listenerGroup.addChild(new ColorCube(0.4));
 		
 
 		// Axes
@@ -262,7 +261,9 @@ public class Main extends Frame implements MouseListener {
 		tr2.setTranslation(new Vector3f(0.5f, 0f, 0f));
 		TransformGroup tg2 = new TransformGroup(tr2);
 		tg2.addChild(computer);
-		spin.addChild(tg2);
+
+		// KeyNavigatorBehavior
+		listenerGroup.addChild(tg2);
 		
 
 		
