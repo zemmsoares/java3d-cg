@@ -1,16 +1,6 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -30,6 +20,7 @@ import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
 import javax.media.j3d.PointLight;
+import javax.media.j3d.RotPosPathInterpolator;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
 import javax.media.j3d.SpotLight;
@@ -38,10 +29,11 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
-
+import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Point3f;
+import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
@@ -78,10 +70,10 @@ public class Main extends Frame implements MouseListener {
 		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.setTitle("Java 3D CG");
 		
-		
-		
 		frame.pack();
-		frame.setVisible(true);    
+		frame.setVisible(true);  
+		
+		
 	}
 
 	protected void processWindowEvent(WindowEvent e) {
@@ -90,20 +82,36 @@ public class Main extends Frame implements MouseListener {
 			System.exit(0);
 		}
 	}
-
+	
+	public JButton test;
+	
 	public Main() {
+		
+        ////////////////////////////////////////////////////////////////////////////
+        // 							Canvas / GUI
+        ////////////////////////////////////////////////////////////////////////////
+		
 		// Create first canvas for the first view
 		GraphicsConfiguration gc = SimpleUniverse.getPreferredConfiguration();
 		Canvas3D cv1 = new Canvas3D(gc);
-		cv1.addMouseListener(this); // Add a mouse listener to the canvas cv1 to get the mouse events
-		
-		// Create second canvas for a second view
-		//Canvas3D cv2 = new Canvas3D(gc);  // In this exercise we don't use the second canvas
+		cv1.addMouseListener(this); // Add a mouse listener to the canvas cv1 to get the mouse events	
 
 		// Add both canvas to the frame
-		setLayout(new GridLayout(1, 1)); // In this exercise we don't use the second canvas
+		setLayout(new BorderLayout());
 		add(cv1);
-		// add(cv2);
+	    
+        // panel z instrukcją
+        JPanel p = new JPanel();
+        p.setPreferredSize(new Dimension(130, 200));
+        p.setLayout(new FlowLayout());
+        
+     
+        test = new JButton("Teste");
+        test.addActionListener(new ButtonsAction(this));
+        p.add(test);
+        
+        add("East", p);
+        pack();
 		
 
 		// Create the a simple universe with a standard nominal view
@@ -201,7 +209,7 @@ public class Main extends Frame implements MouseListener {
         
 		// Axes
 		root.addChild(new Axes(new Color3f(Color.RED), 3, 0.5f));
-
+		
 		// Floor
 		root.addChild(new Floor(10, -1, 1, new Color3f(Color.BLACK), new Color3f(Color.WHITE), true));
 		
@@ -214,7 +222,7 @@ public class Main extends Frame implements MouseListener {
 		Alpha alpha = new Alpha(-1, 30000);
 		RotationInterpolator rotator = new RotationInterpolator(alpha, tgView);
 		rotator.setSchedulingBounds(bounds);
-		//root.addChild(rotator); ROTATE ANIMATION
+		//root.addChild(rotator); //ROTATE ANIMATION
 		// spin.addChild(rotator);
 		
 		
@@ -409,6 +417,109 @@ public class Main extends Frame implements MouseListener {
 		new Vector3f(0f, -1f, 0f), (float) (Math.PI / 6.0), 0f);
 		sLight.setInfluencingBounds(bounds);
 		root.addChild(sLight);
+		
+		
+		/////////////////////////////////////////////////////////////////////////////
+		////						ANIMATION
+		////////////////////////////////////////////////////////////////////////////
+		
+		// Object
+		Appearance myObjApp = new Appearance();
+		myObjApp.setMaterial(new MyMaterial(MyMaterial.ORANGE));
+		MyObj myObj = new MyObj(0.05f, myObjApp);
+
+		// TransformGroup to move the object
+		TransformGroup moveTg1 = new TransformGroup();
+		moveTg1.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+		moveTg1.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+		root.addChild(moveTg1);
+		moveTg1.addChild(myObj);
+
+		// Interpolator
+		Point3f[] positions = new Point3f[9]; // Array of positions that thefine the path
+
+		positions[0] = new Point3f(-0.85f, 0f, 0.85f);
+
+		positions[1] = new Point3f(-0.85f, 0f, -0.85f);
+		positions[2] = new Point3f(-0.85f, 0f, -0.85f);
+
+		positions[3] = new Point3f(0.85f, 0f, -0.85f);
+		positions[4] = new Point3f(0.85f, 0f, -0.85f);
+
+		positions[5] = new Point3f(0.85f, 0f, 0.85f);
+		positions[6] = new Point3f(0.85f, 0f, 0.85f);
+
+		positions[7] = new Point3f(-0.85f, 0f, 0.85f);
+		positions[8] = new Point3f(-0.85f, 0f, 0.85f);
+
+		Quat4f[] quats = new Quat4f[9]; // Array of quaternions that define the orientation betwen postions
+		Quat4f q = new Quat4f();
+		for (int i = 0; i < quats.length; i++)
+			quats[i] = new Quat4f();
+
+		// Create the orientation as a AxisAngle4f object and convert it to a quaternion
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(0)));
+		quats[0].add(q);
+
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(0)));
+		quats[1].add(q);
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-90)));
+		quats[2].add(q);
+
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-90)));
+		quats[3].add(q);
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-180)));
+		quats[4].add(q);
+
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-180)));
+		quats[5].add(q);
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-270)));
+		quats[6].add(q);
+
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(-270)));
+		quats[7].add(q);
+		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(0)));
+		quats[8].add(q);
+
+		float knots[] = new float[9]; // Array of knot values that define the times of the animation
+
+		(knots.length - 1); for (int i = 0; i < knots.length; i++) knots[i] = i * a;
+
+
+		/*
+		// With the InterpoalorData class is easier to set the data 
+		InterpolatorData data = new InterpolatorData();
+		data.add(new Point3f(-1.0f, 0.0f, 1.0f), 0.0f);
+
+		data.add(new Point3f(-1.0f, 0.0f, -1.0f), 0.0f);
+		data.add(new Point3f(-1.0f, 0.0f, -1.0f), -90.0f);
+
+		data.add(new Point3f(1.0f, 0.0f, -1.0f), -90.0f);
+		data.add(new Point3f(1.0f, 0.0f, -1.0f), -180.0f);
+
+		data.add(new Point3f(1.0f, 0.0f, 1.0f), -180.0f);
+		data.add(new Point3f(1.0f, 0.0f, 1.0f), -270.0f);
+
+		data.add(new Point3f(-1.0f, 0.0f, 1.0f), -270.0f);
+		data.add(new Point3f(-1.0f, 0.0f, 1.0f), 0.0f);
+		
+		RotPosPathInterpolator interpolator = new RotPosPathInterpolator(alpha, moveTg, new Transform3D(),
+				data.getAlphas(), data.getOrientations(), data.getPositions());
+		*/
+
+		// Alpha alpha = new Alpha(-1, 10000);
+		Alpha alpha1 = new Alpha(-1, 0, 2500, 10000, 0, 0); // Alpha with phaseDelayDuration
+
+		Transform3D tr60 = new Transform3D();
+		// tr.rotX(Math.toRadians(45));
+		RotPosPathInterpolator interpolator = new RotPosPathInterpolator(alpha1, moveTg1, tr60, knots, quats, positions);
+		interpolator.setSchedulingBounds(bounds);
+		moveTg1.addChild(interpolator);
+
+		// Use of the Points class to visualize the positions
+		//root.addChild(new Points(positions, new Point3f(0f, 0.25f, 0f), new Color3f(Color.RED), 15f));
+
 
 		return root;
 	}

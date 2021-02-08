@@ -27,7 +27,6 @@ public class Dodecahedron extends Shape3D{
     int[] stripCounts = {5,5,5,5,5,5,5,5,5,5,5,5};
     gi.setStripCounts(stripCounts);
     
-    
     NormalGenerator ng = new NormalGenerator();
     ng.generateNormals(gi);
     
