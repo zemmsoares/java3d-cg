@@ -23,7 +23,10 @@ public class ButtonsAction implements ActionListener {
         JButton bt = (JButton) e.getSource();
      
         if(bt == main.test){
-        		System.out.print("test");
+                Transform3D przesuniecie_obserwatora = new Transform3D();
+                przesuniecie_obserwatora.set(new Vector3f(0.0f,0.5f,5.0f));
+                main.getSimpleU().getViewingPlatform().getViewPlatformTransform().setTransform(przesuniecie_obserwatora);
+               // System.out.print(main.getSimpleU());
         }
     }
 }

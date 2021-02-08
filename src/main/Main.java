@@ -84,6 +84,8 @@ public class Main extends Frame implements MouseListener {
 	}
 	
 	public JButton test;
+	private SimpleUniverse su;
+
 	
 	public Main() {
 		
@@ -113,10 +115,11 @@ public class Main extends Frame implements MouseListener {
         add("East", p);
         pack();
 		
+        //SimpleUniverse simpleU = new SimpleUniverse(cv1);
 
 		// Create the a simple universe with a standard nominal view
 		// This is the first view of the scene
-		SimpleUniverse su = new SimpleUniverse(cv1, 2);  // The parameter 2 creates 2 TransformGroup nodes in the view branch  
+		su = new SimpleUniverse(cv1, 2);  // The parameter 2 creates 2 TransformGroup nodes in the view branch  
 		su.getViewingPlatform().setNominalViewingTransform();
 
 		// In this exercise we don't use the second canvas
@@ -166,6 +169,7 @@ public class Main extends Frame implements MouseListener {
 		bgView.addChild(tg);
 		return bgView;
 	}
+	
 
 	private BranchGroup createSceneGraph(TransformGroup tgView) {
 		BranchGroup root = new BranchGroup();
@@ -482,31 +486,17 @@ public class Main extends Frame implements MouseListener {
 		q.set(new AxisAngle4f(0f, 1f, 0f, (float) Math.toRadians(0)));
 		quats[8].add(q);
 
-		float knots[] = new float[9]; // Array of knot values that define the times of the animation
+		float knots[] = new float[9]; 
 
-		(knots.length - 1); for (int i = 0; i < knots.length; i++) knots[i] = i * a;
-
-
-		/*
-		// With the InterpoalorData class is easier to set the data 
-		InterpolatorData data = new InterpolatorData();
-		data.add(new Point3f(-1.0f, 0.0f, 1.0f), 0.0f);
-
-		data.add(new Point3f(-1.0f, 0.0f, -1.0f), 0.0f);
-		data.add(new Point3f(-1.0f, 0.0f, -1.0f), -90.0f);
-
-		data.add(new Point3f(1.0f, 0.0f, -1.0f), -90.0f);
-		data.add(new Point3f(1.0f, 0.0f, -1.0f), -180.0f);
-
-		data.add(new Point3f(1.0f, 0.0f, 1.0f), -180.0f);
-		data.add(new Point3f(1.0f, 0.0f, 1.0f), -270.0f);
-
-		data.add(new Point3f(-1.0f, 0.0f, 1.0f), -270.0f);
-		data.add(new Point3f(-1.0f, 0.0f, 1.0f), 0.0f);
-		
-		RotPosPathInterpolator interpolator = new RotPosPathInterpolator(alpha, moveTg, new Transform3D(),
-				data.getAlphas(), data.getOrientations(), data.getPositions());
-		*/
+		knots[0] = 0f;
+		knots[1] = 0.1f;
+		knots[2] = 0.15f;
+		knots[3] = 0.6f;
+		knots[4] = 0.7f;
+		knots[5] = 0.8f;
+		knots[6] = 0.9f;
+		knots[7] = 0.95f;
+		knots[8] = 1f;
 
 		// Alpha alpha = new Alpha(-1, 10000);
 		Alpha alpha1 = new Alpha(-1, 0, 2500, 10000, 0, 0); // Alpha with phaseDelayDuration
@@ -516,10 +506,6 @@ public class Main extends Frame implements MouseListener {
 		RotPosPathInterpolator interpolator = new RotPosPathInterpolator(alpha1, moveTg1, tr60, knots, quats, positions);
 		interpolator.setSchedulingBounds(bounds);
 		moveTg1.addChild(interpolator);
-
-		// Use of the Points class to visualize the positions
-		//root.addChild(new Points(positions, new Point3f(0f, 0.25f, 0f), new Color3f(Color.RED), 15f));
-
 
 		return root;
 	}
@@ -585,5 +571,9 @@ public class Main extends Frame implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public SimpleUniverse getSimpleU() {
+		return su;
 	}
 }

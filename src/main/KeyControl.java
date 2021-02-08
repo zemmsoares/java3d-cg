@@ -16,6 +16,8 @@ import javax.media.j3d.WakeupOnCollisionExit;
 import javax.media.j3d.WakeupOr;
 import javax.vecmath.Vector3f;
 
+import com.sun.j3d.utils.geometry.ColorCube;
+
 public class KeyControl extends Behavior {
 	private TransformGroup moveTg = null;
 	private Node node = null;
