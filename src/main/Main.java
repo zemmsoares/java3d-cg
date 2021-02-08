@@ -63,7 +63,6 @@ import shapes.Floor;
 import shapes.Monitors;
 import shapes.MyObj;
 import shapes.Pc;
-import shapes.PyramidExample;
 import shapes.myCube;
 import shapes.Dodecahedron;
 import shapes.Desk;
@@ -78,9 +77,11 @@ public class Main extends Frame implements MouseListener {
 		Frame frame = new Main();
 		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.setTitle("Java 3D CG");
+		
+		
+		
 		frame.pack();
 		frame.setVisible(true);    
-		
 	}
 
 	protected void processWindowEvent(WindowEvent e) {
@@ -95,7 +96,7 @@ public class Main extends Frame implements MouseListener {
 		GraphicsConfiguration gc = SimpleUniverse.getPreferredConfiguration();
 		Canvas3D cv1 = new Canvas3D(gc);
 		cv1.addMouseListener(this); // Add a mouse listener to the canvas cv1 to get the mouse events
-
+		
 		// Create second canvas for a second view
 		//Canvas3D cv2 = new Canvas3D(gc);  // In this exercise we don't use the second canvas
 
@@ -103,6 +104,7 @@ public class Main extends Frame implements MouseListener {
 		setLayout(new GridLayout(1, 1)); // In this exercise we don't use the second canvas
 		add(cv1);
 		// add(cv2);
+		
 
 		// Create the a simple universe with a standard nominal view
 		// This is the first view of the scene
