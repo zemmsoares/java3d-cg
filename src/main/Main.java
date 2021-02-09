@@ -17,6 +17,7 @@ import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
 import javax.media.j3d.GeometryArray;
+import javax.media.j3d.GeometryUpdater;
 import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
@@ -51,6 +52,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import appearance.MyMaterial;
 import appearance.TextureAppearance;
+import main.ParticleApp.Fountain.WaterUpdater;
 import shapes.Axes;
 import shapes.Floor;
 import shapes.Monitors;
@@ -188,6 +190,12 @@ public class Main extends Frame implements MouseListener {
 		TransformGroup tg20 = new TransformGroup(tr20);
 		tg20.addChild(cube);
 		root.addChild(tg20);
+		
+        ////////////////////////////////////////////////////////////////////////////
+        // 							Fontain
+        ////////////////////////////////////////////////////////////////////////////
+		
+
 		
 		
         ////////////////////////////////////////////////////////////////////////////
