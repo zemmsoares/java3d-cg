@@ -24,9 +24,11 @@ public class ButtonsAction implements ActionListener {
      
         if(bt == main.test){
                 Transform3D przesuniecie_obserwatora = new Transform3D();
-                przesuniecie_obserwatora.set(new Vector3f(0.0f,0.5f,5.0f));
+                przesuniecie_obserwatora.set(new Vector3f(0.0f,0.5f,3.0f));
                 main.getSimpleU().getViewingPlatform().getViewPlatformTransform().setTransform(przesuniecie_obserwatora);
                // System.out.print(main.getSimpleU());
+        }else {
+            System.out.println("Test");
         }
     }
 }

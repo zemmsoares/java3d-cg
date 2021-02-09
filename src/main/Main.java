@@ -16,6 +16,7 @@ import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
+import javax.media.j3d.GeometryArray;
 import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
@@ -108,7 +109,7 @@ public class Main extends Frame implements MouseListener {
         p.setLayout(new FlowLayout());
         
      
-        test = new JButton("Teste");
+        test = new JButton("Reset View");
         test.addActionListener(new ButtonsAction(this));
         p.add(test);
         
@@ -217,7 +218,6 @@ public class Main extends Frame implements MouseListener {
 		// Floor
 		root.addChild(new Floor(10, -1, 1, new Color3f(Color.BLACK), new Color3f(Color.WHITE), true));
 		
-		
 		TransformGroup spin = new TransformGroup();
 		spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		root.addChild(spin);
@@ -277,7 +277,7 @@ public class Main extends Frame implements MouseListener {
 		tg1.addChild(table);
 		// root.addChild(tg);
 		spin.addChild(tg1);
-
+		
 
 		// Monitors
 		TextureAppearance pc2App = new TextureAppearance("images/screen.jpg", false, this); 
