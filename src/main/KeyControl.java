@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.Enumeration;
 
 import javax.media.j3d.Behavior;
+import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.Node;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
@@ -26,6 +27,7 @@ public class KeyControl extends Behavior {
 	private WakeupCondition wakeupCondition = null;
 
 	private int lastKey = 0;
+
 
 	public KeyControl(TransformGroup moveTg, Node node) {
 		// The constructor is used to pass to the behavior the objects that it needs.
@@ -70,6 +72,11 @@ public class KeyControl extends Behavior {
 			} else if (wakeupCriterion instanceof WakeupOnCollisionEntry) {
 				collision = true;
 				System.out.println("WakeupOnCollisionEntry");
+				
+				//main.objColl = true;
+				
+				 
+				 
 			} else if (wakeupCriterion instanceof WakeupOnCollisionExit) {
 				collision = false;
 				System.out.println("WakeupOnCollisionExit");

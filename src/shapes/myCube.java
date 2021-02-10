@@ -1,9 +1,12 @@
 package shapes;
 
+import java.awt.Color;
+
 import javax.media.j3d.Geometry;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.IndexedLineArray;
 import javax.media.j3d.Shape3D;
+import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 
 public class myCube extends Shape3D {

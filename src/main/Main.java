@@ -25,23 +25,18 @@ import javax.media.j3d.GeometryArray;
 import javax.media.j3d.GeometryUpdater;
 import javax.media.j3d.IndexedQuadArray;
 import javax.media.j3d.LineArray;
-import javax.media.j3d.LineAttributes;
 import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
 import javax.media.j3d.PointLight;
-import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.RotPosPathInterpolator;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
-import javax.media.j3d.SpotLight;
 import javax.media.j3d.Text3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
-import javax.media.j3d.TriangleFanArray;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
-import javax.media.j3d.WakeupOnElapsedFrames;
 import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
@@ -53,7 +48,6 @@ import javax.vecmath.Vector3f;
 import java.awt.*;
 import javax.swing.*;
 
-import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.geometry.ColorCube;
@@ -73,7 +67,7 @@ import shapes.Monitors;
 import shapes.MyObj;
 import shapes.Pc;
 import shapes.myCube;
-import shapes.Dodecahedron;
+import shapes.tLamp;
 import shapes.Desk;
 
 public class Main extends Frame implements MouseListener {
@@ -83,7 +77,8 @@ public class Main extends Frame implements MouseListener {
 	PickCanvas pc = null; // PickCanvas to perform picking
 	JButton test;
 	SimpleUniverse su;
-	
+	public boolean objColl = false;
+
 	public static void main(String[] args) {
 		Frame frame = new Main();
 		frame.setPreferredSize(new Dimension(1200, 800));
@@ -101,6 +96,8 @@ public class Main extends Frame implements MouseListener {
 		
 	public Main() {
 		
+		
+		
         ////////////////////////////////////////////////////////////////////////////
         // 							Canvas / GUI
         ////////////////////////////////////////////////////////////////////////////
@@ -117,9 +114,11 @@ public class Main extends Frame implements MouseListener {
         JPanel p = new JPanel();
         p.setPreferredSize(new Dimension(130, 200));
         p.setLayout(new FlowLayout());
+        
         test = new JButton("Reset View");
         test.addActionListener(new ButtonsAction(this));
         p.add(test);
+             
         add("East", p);
         pack();
 		
@@ -180,10 +179,11 @@ public class Main extends Frame implements MouseListener {
 		
 		Transform3D tr20 = new Transform3D();
 		tr20.setScale(0.2f);
-		tr20.setTranslation(new Vector3f(0f, 0.5f, 0f));
+		tr20.setTranslation(new Vector3f(-0.80f, 0.30f, 0f));
 		TransformGroup tg20 = new TransformGroup(tr20);
 		tg20.addChild(cube);
 		root.addChild(tg20);
+		
 		
         ////////////////////////////////////////////////////////////////////////////
         // 							Fontain
@@ -191,11 +191,13 @@ public class Main extends Frame implements MouseListener {
 		
         // Create the transform group node and initialize it to the
         // identity. Add it to the root of the subgraph.
+
         TransformGroup objSpin = new TransformGroup();
         objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
         
         Transform3D tr21 = new Transform3D();
-        tr21.setTranslation(new Vector3f(1f, 0.5f, 1f));
+        tr21.setTranslation(new Vector3f(0.75f, 0.35f, 0.2f));
+        tr21.setScale(0.2f);
         TransformGroup tg21 = new TransformGroup(tr21);
         tg21.addChild(objSpin);
         root.addChild(tg21);
@@ -204,14 +206,13 @@ public class Main extends Frame implements MouseListener {
         // create a sphere centered at the origin with radius of 1
         BoundingSphere bounds = new BoundingSphere();
 
-
         Fountain fountain = new Fountain();
         objSpin.addChild(fountain);
 
         Behavior waterBehavior = fountain.getWaterBehavior();
         waterBehavior.setSchedulingBounds(bounds);
         root.addChild(waterBehavior);
-
+	
 		
 		
         ////////////////////////////////////////////////////////////////////////////
@@ -286,7 +287,7 @@ public class Main extends Frame implements MouseListener {
         ////////////////////////////////////////////////////////////////////////////
 		
 		// Desk
-		TextureAppearance deskApp = new TextureAppearance("images/wood3.jpg", false, this); 
+		TextureAppearance deskApp = new TextureAppearance("images/wood.jpg", false, this); 
 
 		Desk table = new Desk(deskApp);
 		
@@ -372,7 +373,7 @@ public class Main extends Frame implements MouseListener {
 		ttext.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		
         ////////////////////////////////////////////////////////////////////////////
-        // 							Geometry
+        // 							Geometry w/ Geometryinfo
         ////////////////////////////////////////////////////////////////////////////
 		
 		Appearance orangeApp = new Appearance();
@@ -381,12 +382,12 @@ public class Main extends Frame implements MouseListener {
 		
 		Appearance ap = new Appearance();
 		ap.setMaterial(new Material());
-		Shape3D shape = new Dodecahedron();
+		Shape3D shape = new tLamp();
 		shape.setAppearance(orangeApp);
 		
 		Transform3D geome = new Transform3D();
-		geome.setScale(0.05);
-		geome.setTranslation(new Vector3f(0f, 1f, 0f));
+		geome.setScale(0.15);
+		geome.setTranslation(new Vector3f(0f, 0.85f, 0f));
 		TransformGroup tGeom = new TransformGroup(geome);
 		spin.addChild(tGeom);
 		tGeom.addChild(shape);
@@ -464,13 +465,13 @@ public class Main extends Frame implements MouseListener {
 		// Interpolator
 		Point3f[] positions = new Point3f[5]; // Array of positions that thefine the path
 
-		positions[0] = new Point3f(-0.85f, 0f, 0.85f);
+		positions[0] = new Point3f(-0.50f, 0f, 0.50f);
 
-		positions[1] = new Point3f(-0.85f, 0f, -0.85f);
-		positions[2] = new Point3f(-0.85f, 0f, -0.85f);
+		positions[1] = new Point3f(0.50f, 0f, 0.50f);
+		positions[2] = new Point3f(0.50f, 0f, 0.50f);
 
-		positions[3] = new Point3f(-0.85f, 0f, 0.85f);
-		positions[4] = new Point3f(-0.85f, 0f, 0.85f);
+		positions[3] = new Point3f(-0.50f, 0f, 0.50f);
+		positions[4] = new Point3f(-0.50f, 0f, 0.50f);
 
 
 		Quat4f[] quats = new Quat4f[5]; // Array of quaternions that define the orientation betwen postions
@@ -491,9 +492,9 @@ public class Main extends Frame implements MouseListener {
 		float knots[] = new float[5]; 
 
 		knots[0] = 0f;
-		knots[1] = 0.1f;
-		knots[2] = 0.15f;
-		knots[3] = 0.6f;
+		knots[1] = 0.25f;
+		knots[2] = 0.50f;
+		knots[3] = 0.75f;
 		knots[4] = 1.0f;
 
 
@@ -536,7 +537,7 @@ public class Main extends Frame implements MouseListener {
 			Shape3D nodeS = (Shape3D) result.getNode(PickResult.SHAPE3D);
 			if (nodeS != null) {
 				// System.out.println(nodeS.toString());
-				if (nodeS.toString().contains("Dodecahedron")) {
+				if (nodeS.toString().contains("tLamp")) {
 					// System.out.println("X");
 					if (pLight.getEnable())
 						pLight.setEnable(false);

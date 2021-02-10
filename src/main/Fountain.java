@@ -270,7 +270,7 @@ public class Fountain extends BranchGroup{
 
         Appearance fountainAppear = new Appearance();
         fountainAppear.setColoringAttributes(
-             new ColoringAttributes(0.7f,0.7f,1.0f,ColoringAttributes.SHADE_FLAT));
+             new ColoringAttributes(0.255f, 0.127f, 0.8f,ColoringAttributes.SHADE_FLAT));
 
         LineAttributes lineAttributes = new LineAttributes();
         lineAttributes.setLineAntialiasingEnable(true);
