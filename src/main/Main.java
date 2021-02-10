@@ -4,24 +4,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.util.Enumeration;
+import java.util.Random;
 
 import javax.media.j3d.Alpha;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.Background;
+import javax.media.j3d.Behavior;
 import javax.media.j3d.Billboard;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Font3D;
 import javax.media.j3d.FontExtrusion;
+import javax.media.j3d.Geometry;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.GeometryUpdater;
+import javax.media.j3d.IndexedQuadArray;
+import javax.media.j3d.LineArray;
+import javax.media.j3d.LineAttributes;
 import javax.media.j3d.Material;
 import javax.media.j3d.PhysicalBody;
 import javax.media.j3d.PhysicalEnvironment;
 import javax.media.j3d.PointLight;
+import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.RotPosPathInterpolator;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Shape3D;
@@ -29,8 +38,10 @@ import javax.media.j3d.SpotLight;
 import javax.media.j3d.Text3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
+import javax.media.j3d.TriangleFanArray;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
+import javax.media.j3d.WakeupOnElapsedFrames;
 import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
@@ -42,6 +53,7 @@ import javax.vecmath.Vector3f;
 import java.awt.*;
 import javax.swing.*;
 
+import com.sun.j3d.utils.applet.MainFrame;
 import com.sun.j3d.utils.behaviors.keyboard.KeyNavigatorBehavior;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.geometry.ColorCube;
@@ -52,7 +64,9 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 
 import appearance.MyMaterial;
 import appearance.TextureAppearance;
-import main.ParticleApp.Fountain.WaterUpdater;
+import main.Fountain;
+import main.Fountain.UpdateWaterBehavior;
+import main.Fountain.WaterUpdater;
 import shapes.Axes;
 import shapes.Floor;
 import shapes.Monitors;
@@ -195,7 +209,32 @@ public class Main extends Frame implements MouseListener {
         // 							Fontain
         ////////////////////////////////////////////////////////////////////////////
 		
+        // Create the transform group node and initialize it to the
+        // identity. Add it to the root of the subgraph.
+        TransformGroup objSpin = new TransformGroup();
+        objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        root.addChild(objSpin);
 
+        // a bounding sphere specifies a region a behavior is active
+        // create a sphere centered at the origin with radius of 1
+        BoundingSphere bounds = new BoundingSphere();
+
+
+        Fountain fountain = new Fountain();
+        objSpin.addChild(fountain);
+
+        Behavior waterBehavior = fountain.getWaterBehavior();
+        waterBehavior.setSchedulingBounds(bounds);
+        root.addChild(waterBehavior);
+
+
+        // make background white
+        //Background background = new Background(1.0f, 1.0f, 1.0f);
+        ///background.setApplicationBounds(bounds);
+        //root.addChild(background);
+
+        // Let Java 3D perform optimizations on this scene graph.
+        //root.compile();
 		
 		
         ////////////////////////////////////////////////////////////////////////////
@@ -584,4 +623,6 @@ public class Main extends Frame implements MouseListener {
 	public SimpleUniverse getSimpleU() {
 		return su;
 	}
+	
+
 }
