@@ -7,6 +7,7 @@ public class MyMaterial extends Material {
 	public final static int ORANGE = 1;
 	public final static int RED = 2;
 	public final static int WALL = 3;
+	public final static int WHITE_PLASTIC = 4;
 
 	public MyMaterial(int type) {
 		switch (type) {
@@ -32,6 +33,12 @@ public class MyMaterial extends Material {
 			this.setAmbientColor(0.220f, 0.020f, 0.060f);
 			this.setDiffuseColor(0.220f, 0.020f, 0.060f);
 			this.setSpecularColor(0.220f, 0.020f, 0.060f);
+			this.setShininess(25.6f);
+			break;
+		case WHITE_PLASTIC:
+			this.setAmbientColor(0.220f, 0.220f, 0.220f);
+			this.setDiffuseColor(0.220f, 0.220f, 0.220f);
+			this.setSpecularColor(0.220f, 0.220f, 0.220f);
 			this.setShininess(25.6f);
 			break;
 			

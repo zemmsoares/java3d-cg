@@ -27,5 +27,31 @@ public class Pc extends Group {
 				tg = new TransformGroup(tr);
 				tg.addChild(pc);
 				this.addChild(tg);
+				
+				//legs
+				
+				pc = new Box(0.05f, 0.03f, 0.05f, whiteApp);
+				tr.setTranslation(new Vector3f(-0.15f, 0.60f, 0.35f));
+				tg = new TransformGroup(tr);
+				tg.addChild(pc);
+				this.addChild(tg);
+				
+				pc = new Box(0.05f, 0.03f, 0.05f, whiteApp);
+				tr.setTranslation(new Vector3f(0.15f, 0.60f, 0.35f));
+				tg = new TransformGroup(tr);
+				tg.addChild(pc);
+				this.addChild(tg);
+				
+				pc = new Box(0.05f, 0.03f, 0.05f, whiteApp);
+				tr.setTranslation(new Vector3f(0.15f, 0.60f, -0.35f));
+				tg = new TransformGroup(tr);
+				tg.addChild(pc);
+				this.addChild(tg);
+
+				pc = new Box(0.05f, 0.03f, 0.05f, whiteApp);
+				tr.setTranslation(new Vector3f(-0.15f, 0.60f, -0.35f));
+				tg = new TransformGroup(tr);
+				tg.addChild(pc);
+				this.addChild(tg);
 	}
 }
