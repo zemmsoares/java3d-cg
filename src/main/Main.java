@@ -321,11 +321,12 @@ public class Main extends Frame implements MouseListener {
 		spin.addChild(tMonitors);
 		
 		// PC
+		TextureAppearance caseApp = new TextureAppearance("images/case.jpg", false, this); 
 		Appearance redApp = new Appearance();
 		MyMaterial red = new MyMaterial(MyMaterial.RED);
 		redApp.setMaterial(red);
 		
-		Pc computer = new Pc(plasticApp, redApp);
+		Pc computer = new Pc(plasticApp, redApp, caseApp);
 		
 		Transform3D comp = new Transform3D();
 		comp.setScale(0.5f);
@@ -526,10 +527,8 @@ public class Main extends Frame implements MouseListener {
 
 				// Create a rotation and add it to the actual geometric transformation tr
 				Transform3D rot = new Transform3D();
-				rot.rotY(Math.PI / 8);
+				rot.rotY(Math.PI / 1);
 				tr.mul(rot);
-
-				// Set the geometric transformation of the nodeTG with the new tr
 				nodeTG.setTransform(tr);
 			}
 

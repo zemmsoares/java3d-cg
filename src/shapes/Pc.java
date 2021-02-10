@@ -13,7 +13,7 @@ import com.sun.j3d.utils.geometry.Primitive;
 
 
 public class Pc extends Group {
-	public Pc(Appearance plasticApp,Appearance whiteApp) {
+	public Pc(Appearance plasticApp,Appearance whiteApp,Appearance caseApp) {
 		
 				Primitive pc = new Box(0.2f, 0.3f, 0.4f, whiteApp);
 				Transform3D tr = new Transform3D();
@@ -22,7 +22,7 @@ public class Pc extends Group {
 				tg.addChild(pc);
 				this.addChild(tg);
 				
-				pc = new Box(0.005f, 0.28f, 0.38f, plasticApp);
+				pc = new Box(0.005f, 0.28f, 0.38f, Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING, caseApp);
 				tr.setTranslation(new Vector3f(-0.2f, 0.025f + 0.9f, 0f));
 				tg = new TransformGroup(tr);
 				tg.addChild(pc);
