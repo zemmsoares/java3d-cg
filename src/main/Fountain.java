@@ -144,11 +144,10 @@ public class Fountain extends BranchGroup{
     public Fountain() {
 
         Appearance waterAppear;
-        this.addChild(new Shape3D(createFountainGeometry(),createBaseAppearance()));
 
         waterAppear = createWaterAppearance();
         this.addChild(new Shape3D(createWaterGeometry(),waterAppear));
-        this.addChild(new Shape3D(createFountainBaseGeometry(),waterAppear));
+        //this.addChild(new Shape3D(createFountainBaseGeometry(),waterAppear));
 
         GeometryUpdater geometryUpdater = new WaterUpdater();
     } // end of Fountain constructor 
@@ -227,47 +226,11 @@ public class Fountain extends BranchGroup{
 
     } // end of createFountainGeometry
     	    
-    Geometry createFountainBaseGeometry(){
-
-        int N = 40;                   // number of perimeter verts
-        float[] coord = new float[(N+1)*3];
-        TriangleFanArray fountainFan = null;
-        int[] stripCounts = new int[1];
-        stripCounts[0] = N+1;
-
-        fountainFan = new TriangleFanArray(N+1,
-          TriangleFanArray.COORDINATES, stripCounts );
-
-        double a;
-        int v;
-
-        // center of fan
-        coord[0] = 0.0f;
-        coord[1] = baseElevation;
-        coord[2] = 0.0f;
-
-        // perimeter coordinates
-        for(v = 1; v < N; v++){
-            a=v*2.0*Math.PI/(N-2);
-            coord[v*3+0] = (float)(0.7*Math.sin(a)); //x1
-            coord[v*3+1] = baseElevation;            //y1
-            coord[v*3+2] = (float)(0.7*Math.cos(a)); //z1
-        }
-
-        // last coord of perimter is same as first
-        coord[N*3+0] = coord[3];
-        coord[N*3+1] = coord[4];
-        coord[N*3+2] = coord[5];
-
-        fountainFan.setCoordinates(0,coord);
-
-        return fountainFan;
-
-    } // end of createFountainBaseGeometry
+  
 
     Geometry createWaterGeometry(){
 
-        int N = 1400;                   // number of 'drops'
+        int N = 500;                   // number of 'drops'
 
         waterLines = new LineArray(N*2,
           LineArray.COORDINATES | LineArray.BY_REFERENCE);
@@ -301,17 +264,7 @@ public class Fountain extends BranchGroup{
     // this method creates the default Appearance for the
     // Fountain 
 
-    Appearance createBaseAppearance(){
 
-        Appearance fountainAppear = new Appearance();
-        PolygonAttributes polyAttrib = new PolygonAttributes();
-        // polyAttrib.setPolygonMode(PolygonAttributes.POLYGON_LINE);
-        fountainAppear.setPolygonAttributes(polyAttrib);
-        fountainAppear.setColoringAttributes(
-             new ColoringAttributes(0.5f,0.2f,0.2f,ColoringAttributes.SHADE_FLAT));
-
-        return fountainAppear;
-    }
 
     Appearance createWaterAppearance(){
 

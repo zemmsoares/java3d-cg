@@ -213,7 +213,12 @@ public class Main extends Frame implements MouseListener {
         // identity. Add it to the root of the subgraph.
         TransformGroup objSpin = new TransformGroup();
         objSpin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        root.addChild(objSpin);
+        
+        Transform3D tr21 = new Transform3D();
+        tr21.setTranslation(new Vector3f(1f, 0.5f, 1f));
+        TransformGroup tg21 = new TransformGroup(tr21);
+        tg21.addChild(objSpin);
+        root.addChild(tg21);
 
         // a bounding sphere specifies a region a behavior is active
         // create a sphere centered at the origin with radius of 1
@@ -227,14 +232,6 @@ public class Main extends Frame implements MouseListener {
         waterBehavior.setSchedulingBounds(bounds);
         root.addChild(waterBehavior);
 
-
-        // make background white
-        //Background background = new Background(1.0f, 1.0f, 1.0f);
-        ///background.setApplicationBounds(bounds);
-        //root.addChild(background);
-
-        // Let Java 3D perform optimizations on this scene graph.
-        //root.compile();
 		
 		
         ////////////////////////////////////////////////////////////////////////////
