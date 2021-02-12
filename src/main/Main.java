@@ -104,7 +104,6 @@ public class Main extends Frame implements MouseListener {
 		GraphicsConfiguration gc = SimpleUniverse.getPreferredConfiguration();
 		Canvas3D cv1 = new Canvas3D(gc);
 		cv1.addMouseListener(this); // Add a mouse listener to the canvas cv1 to get the mouse events	
-
 		
 		setLayout(new BorderLayout());
 		add(cv1);
@@ -442,8 +441,7 @@ public class Main extends Frame implements MouseListener {
 		pLight.setCapability(PointLight.ALLOW_STATE_WRITE);
 		pLight.setInfluencingBounds(bounds);
 		root.addChild(pLight);
-		
-		
+				
 		/////////////////////////////////////////////////////////////////////////////
 		////						ANIMATION
 		////////////////////////////////////////////////////////////////////////////
@@ -465,10 +463,8 @@ public class Main extends Frame implements MouseListener {
 		Point3f[] positions = new Point3f[5]; // Array of positions that thefine the path
 
 		positions[0] = new Point3f(-0.50f, 0f, 0.50f);
-
 		positions[1] = new Point3f(0.50f, 0f, 0.50f);
 		positions[2] = new Point3f(0.50f, 0f, 0.50f);
-
 		positions[3] = new Point3f(-0.50f, 0f, 0.50f);
 		positions[4] = new Point3f(-0.50f, 0f, 0.50f);
 

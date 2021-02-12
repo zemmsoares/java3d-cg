@@ -42,8 +42,6 @@ public class KeyControl extends Behavior {
 		keyEvents[1] = new WakeupOnAWTEvent(KeyEvent.KEY_RELEASED);
 		keyEvents[2] = new WakeupOnCollisionEntry(node, WakeupOnCollisionEntry.USE_GEOMETRY);
 		keyEvents[3] = new WakeupOnCollisionExit(node, WakeupOnCollisionExit.USE_GEOMETRY);
-
-		// The wakeup condition is a combination of 4 wakeup criterion
 		wakeupCondition = new WakeupOr(keyEvents);
 		wakeupOn(wakeupCondition);
 	}
