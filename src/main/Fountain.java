@@ -102,7 +102,7 @@ public class Fountain extends BranchGroup{
         vertices = geometryArray.getCoordRefFloat();
         N = geometryArray.getValidVertexCount();
 
-        for(i = 0; i < N; i+=2){        // for each particle
+        for(i = 0; i < N; i+=2){   
           if(vertices[i*3+1] > baseElevation){  // if y = 0
               vertices[i*3+0] += vertices[i*3+0] - vertices[i*3+3];      //x1=2x1-x2
               vertices[i*3+1] += vertices[i*3+1] - vertices[i*3+4]-0.01f; //y1=2y1-y2-c
