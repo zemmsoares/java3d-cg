@@ -115,7 +115,7 @@ public class Fountain extends BranchGroup{
                 vertices[i*3+1] = baseElevation; //y1
                 vertices[i*3+2] = 0.0f; //z1
                 vertices[i*3+3] = 0.0f; //x2
-                vertices[i*3+4] = baseElevation; //y2
+                vertices[i*3+4] = baseElevation; //
                 vertices[i*3+5] = 0.0f; //z2
               }
           } else { // randomly start a drop
