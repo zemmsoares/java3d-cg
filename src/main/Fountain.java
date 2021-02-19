@@ -125,7 +125,7 @@ public class Fountain extends BranchGroup{
                vertices[i*3+2] = 0.03f*(random.nextFloat()-0.5f); //z1
             } // end if
           } // end if-else
-        } // end for loop
+        } // end for loo
       } // end updateData(Geometry
     } // end of class water
 
