@@ -127,7 +127,7 @@ public class Fountain extends BranchGroup{
           } // end if-else
         } // end for loop
       } // end updateData(Geometry)
-    } // end of class water
+    } // end of class wate
 
     public Behavior getWaterBehavior(){
       return new UpdateWaterBehavior();
