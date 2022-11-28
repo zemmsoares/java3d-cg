@@ -70,6 +70,7 @@ public class KeyControl extends Behavior {
 			} else if (wakeupCriterion instanceof WakeupOnCollisionEntry) {
 				collision = true;
 				System.out.println("WakeupOnCollisionEntry");
+				System.exit(0);
 				
 				//main.objColl = true;
 				

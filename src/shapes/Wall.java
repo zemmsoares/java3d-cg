@@ -1,8 +1,12 @@
 package shapes;
 
+import java.awt.Color;
+
+import javax.media.j3d.Appearance;
 import javax.media.j3d.GeometryArray;
 import javax.media.j3d.QuadArray;
 import javax.media.j3d.Shape3D;
+import javax.vecmath.Color3f;
 import javax.vecmath.Point2f;
 import javax.vecmath.Point3f;
 

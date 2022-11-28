@@ -12,8 +12,9 @@ import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.geometry.Primitive;
 
 public class Monitors extends Group {
-	public Monitors(Appearance screen1App, Appearance screen2App, Appearance plasticApp, Appearance GreyplasticApp) {
+	public Monitors(Appearance screen1App, Appearance screen2App, Appearance screen3App, Appearance plasticApp) {
 
+		/*
 		// Monitor Horizontal
 		Primitive top = new Box(0.5f, 0.3f, 0.020f, plasticApp);
 		Transform3D tr = new Transform3D();
@@ -21,29 +22,57 @@ public class Monitors extends Group {
 		TransformGroup tg = new TransformGroup(tr);
 		tg.addChild(top);
 		this.addChild(tg);
+		*/
 		
+		//QUADRO 1
 		// Monitor Vertical
-		top = new Box(0.3f, 0.5f, 0.020f, plasticApp);
+		Primitive top = new Box(0.3f, 0.5f, 0.020f, plasticApp);
 		Transform3D tr1 = new Transform3D();
 		tr1.set(new Vector3f(-1.9f, 0.025f + 1.1f, -0.3f));
 		TransformGroup tg1 = new TransformGroup(tr1);
 		tg1.addChild(top);
 		this.addChild(tg1);
 		
-		// Screen
-		Primitive screen = new Box(0.48f, 0.28f, 0.010f,Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING,screen1App);
-		tr.setTranslation(new Vector3f(-1f, 0.025f + 0.9f, -0.285f));
-		tg = new TransformGroup(tr);
-		tg.addChild(screen);
-		this.addChild(tg);
+		//QUADRO 2
+		Primitive quadroDois = new Box(0.3f, 0.5f, 0.020f, plasticApp);
+		Transform3D tr2 = new Transform3D();
+		tr2.set(new Vector3f(-1.2f, 0.025f + 1.1f, -0.3f));
+		TransformGroup tg2 = new TransformGroup(tr2);
+		tg2.addChild(quadroDois);
+		this.addChild(tg2);
 		
-		// Screen Vertical		
-		screen = new Box(0.28f, 0.48f, 0.010f,Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING,screen2App);
-		tr.setTranslation(new Vector3f(-1.9f, 0.025f + 1.1f, -0.287f));
-		tg = new TransformGroup(tr);
-		tg.addChild(screen);
-		this.addChild(tg);
+		//QUADRO 3
+		Primitive quadroTres = new Box(0.3f, 0.5f, 0.020f, plasticApp);
+		Transform3D tr3 = new Transform3D();
+		tr3.set(new Vector3f(-0.5f, 0.025f + 1.1f, -0.3f));
+		TransformGroup tg3 = new TransformGroup(tr3);
+		tg3.addChild(quadroTres);
+		this.addChild(tg3);
 		
+
+		// Quadro1 - Pintura	
+		Primitive screen = new Box(0.28f, 0.48f, 0.010f,Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING,screen1App);
+		tr1.setTranslation(new Vector3f(-1.9f, 0.025f + 1.1f, -0.287f));
+		tg1 = new TransformGroup(tr1);
+		tg1.addChild(screen);
+		this.addChild(tg1);
+		
+		// Quadro2 - Pintura	
+		Primitive screen2 = new Box(0.28f, 0.48f, 0.010f,Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING,screen2App);
+		tr2.setTranslation(new Vector3f(-1.2f, 0.025f + 1.1f, -0.287f));
+		tg2 = new TransformGroup(tr2);
+		tg2.addChild(screen2);
+		this.addChild(tg2);
+		
+		// Quadro2 - Pintura	
+		Primitive screen3 = new Box(0.28f, 0.48f, 0.010f,Box.GENERATE_TEXTURE_COORDS | Box.GENERATE_NORMALS | Box.ENABLE_GEOMETRY_PICKING,screen3App);
+		tr3.setTranslation(new Vector3f(-0.5f, 0.025f + 1.1f, -0.287f));
+		tg3 = new TransformGroup(tr3);
+		tg3.addChild(screen3);
+		this.addChild(tg3);
+		
+		
+		/*
 		// stand main monitor
 		Primitive Stand = new Cylinder(0.04f, 0.5f,GreyplasticApp);
 		tr.setTranslation(new Vector3f(-1f, -0.1f + 0.9f, -0.325f));
@@ -70,6 +99,7 @@ public class Monitors extends Group {
 		tg = new TransformGroup(tr);
 		tg.addChild(Stand);
 		this.addChild(tg);
+		*/
 		
 		
 	}

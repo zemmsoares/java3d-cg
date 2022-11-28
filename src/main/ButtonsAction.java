@@ -28,9 +28,12 @@ public class ButtonsAction implements ActionListener {
                 teste.set(new Vector3f(0.0f,0.5f,3.0f));
                 main.getSimpleU().getViewingPlatform().getViewPlatformTransform().setTransform(teste);
                // System.out.print(main.getSimpleU());
+        }else if(bt == main.test2){
+        	System.out.println("Button2");
         }else {
             System.out.println("Test");
         }
+        
         
     }
 }
